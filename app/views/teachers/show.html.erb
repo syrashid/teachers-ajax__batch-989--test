@@ -3,19 +3,22 @@
   <%= pluralize @teacher.reviews.size, "review" %>
 </h2>
 
-<div id="reviews">
-  <% if @teacher.reviews.blank? %>
-    Be the first to leave a review for <%= @teacher.name %>
-  <% else %>
-    <% @teacher.reviews.each do |review| %>
-      <p><%= review.content %></p>
+<div data-controller="insert-in-list">
+  <div id="reviews" data-insert-in-list-target="items">
+    <% if @teacher.reviews.blank? %>
+      Be the first to leave a review for <%= @teacher.name %>
+    <% else %>
+      <% @teacher.reviews.each do |review| %>
+        <p><%= review.content %></p>
+      <% end %>
     <% end %>
+  </div>
+
+  <%= simple_form_for([ @teacher, @review ],
+    data: {insert_in_list_target: "form"}) do |f| %>
+    <%= f.input :content, as: :text %>
+    <%= f.button :submit, class: 'btn btn-dark' %>
   <% end %>
 </div>
-
-<%= simple_form_for([ @teacher, @review ]) do |f| %>
-  <%= f.input :content, as: :text %>
-  <%= f.button :submit, class: 'btn btn-dark' %>
-<% end %>
 
 <%= link_to "< Back to Home",  teachers_path %>
