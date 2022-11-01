@@ -3,10 +3,15 @@ class ReviewsController < ApplicationController
     @teacher = Teacher.find(params[:teacher_id])
     @review = Review.new(review_params)
     @review.teacher = @teacher
-    if @review.save
-      redirect_to teacher_path(@teacher)
-    else
-      render 'teachers/show', status: :unprocessable_entity
+
+    respond_to do |format|
+      if @review.save
+        format.html { redirect_to teacher_path(@teacher) }
+        format.json # Follow the classic Rails flow and look for a create.json view
+      else
+        format.html { render "teachers/show", status: :unprocessable_entity }
+        format.json # Follow the classic Rails flow and look for a create.json view
+      end
     end
   end
 
