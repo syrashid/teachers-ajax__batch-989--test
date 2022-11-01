@@ -13,4 +13,9 @@
   <% end %>
 </div>
 
+<%= simple_form_for([ @teacher, @review ]) do |f| %>
+  <%= f.input :content, as: :text %>
+  <%= f.button :submit, class: 'btn btn-dark' %>
+<% end %>
+
 <%= link_to "< Back to Home",  teachers_path %>
